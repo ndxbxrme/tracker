@@ -1,0 +1,13 @@
+{
+  "version": 3,
+  "file": "tracker.js",
+  "sourceRoot": "../src/",
+  "sources": [
+    "tracker.coffee"
+  ],
+  "names": [],
+  "mappings": "AAAA;AAAA,MAAA,KAAA,EAAA,KAAA,EAAA,CAAA,EAAA,GAAA,EAAA,GAAA,EAAA,IAAA,EAAA;;EAAA,CAAA,CAAC,KAAD,CAAA,GAAU,OAAA,CAAQ,SAAR,CAAV;;EACA,KAAA,GAAQ,IAAI,YAAJ,CAAA;;EACR,IAAA,GACE;IAAA,MAAA,EAAQ;MACN,KAAA,CAAM,KAAN;MACE;QAAA,KAAA,EACE;UAAA,GAAA,EACE;YAAA,IAAA,EAAM,YAAN;YACA,QAAA,EACE;cAAA,SAAA,EAAW;YAAX;UAFF,CADF;UAIA,IAAA,EACE;YAAA,IAAA,EAAM,MAAN;YACA,QAAA,EACE;cAAA,IAAA,EAAM;YAAN;UAFF;QALF,CADF;QASA,QAAA,EACE;UAAA,IAAA,EACE;YAAA,IAAA,EAAM,YAAN;YACA,QAAA,EACE;cAAA,SAAA,EAAW;YAAX;UAFF,CADF;UAIA,KAAA,EACE;YAAA,IAAA,EAAM,MAAN;YACA,QAAA,EACE;cAAA,IAAA,EAAM;YAAN;UAFF;QALF,CAVF;QAkBA,OAAA,EAAS,kCAlBT;QAqBA,UAAA,EAAY;MArBZ,CADF,CADM;;EAAR;;AA6BF;EAAA,KAAA,qCAAA;;IACE,KAAK,CAAC,OAAN,CAAc,KAAK,CAAC,WAApB;EADF;;EAEA,MAAM,CAAC,OAAP,GACE;IAAA,OAAA,EAAS,QAAA,CAAA,CAAA;AACP,UAAA;MAAA,OAAA,GAAU,QAAA,CAAA,CAAA;eACR,qBAAA,CAAsB,OAAtB;MADQ;MAEV,OAAA,CAAA;MACA,IAAI,CAAC,MAAO,CAAA,CAAA,CAAE,CAAC,IAAf,CAAoB,KAAK,CAAC,WAA1B,EAAuC,EAAvC,EAA2C,GAA3C,EAAgD,GAAhD,EAAqD,IAArD;aACA;QAAA,KAAA,EAAO,QAAA,CAAA,CAAA;iBACL,IAAI,CAAC,MAAO,CAAA,CAAA,CAAE,CAAC,IAAf,CAAoB,KAAK,CAAC,WAA1B,EAAuC,EAAvC,EAA2C,GAA3C,EAAgD,GAAhD,EAAqD,IAArD;QADK;MAAP;IALO;EAAT;AAnCF",
+  "sourcesContent": [
+    "{Voice} = require './voice'\r\naudio = new AudioContext()\r\nsong =\r\n  voices: [\r\n    Voice audio, \r\n      voice:\r\n        lfo:\r\n          type: 'Oscillator'\r\n          settings:\r\n            frequency: 2.0\r\n        gain:\r\n          type: 'Gain'\r\n          settings:\r\n            gain: 0.4\r\n      instance:\r\n        osc1:\r\n          type: 'Oscillator'\r\n          settings:\r\n            frequency: 100\r\n        gain1:\r\n          type: 'Gain'\r\n          settings:\r\n            gain: 0.2\r\n      voiceFn: \"\"\"\r\n        this.voice.gain.connect(output);\r\n      \"\"\"\r\n      instanceFn: \"\"\"\r\n        this.instance.osc1.connect(this.instance.gain1);\r\n        this.instance.gain1.connect(this.voice.gain);\r\n      \"\"\"\r\n          \r\n  ]\r\nfor voice in song.voices\r\n  voice.voiceFn audio.destination\r\nmodule.exports =\r\n  Tracker: ->\r\n    process = ->\r\n      requestAnimationFrame process\r\n    process()\r\n    song.voices[0].play audio.currentTime, 35, 0.5, 1.0, null\r\n    click: ->\r\n      song.voices[0].play audio.currentTime, 35, 0.5, 1.0, null"
+  ]
+}

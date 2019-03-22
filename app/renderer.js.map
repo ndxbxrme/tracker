@@ -1,0 +1,13 @@
+{
+  "version": 3,
+  "file": "renderer.js",
+  "sourceRoot": "../src/",
+  "sources": [
+    "renderer.coffee"
+  ],
+  "names": [],
+  "mappings": "AAAA;AAAA,MAAA,OAAA,EAAA;;EAAA,CAAA,CAAC,OAAD,CAAA,GAAY,OAAA,CAAQ,WAAR,CAAZ;;EACA,OAAA,GAAU,OAAA,CAAA;;EACV,QAAQ,CAAC,IAAI,CAAC,gBAAd,CAA+B,OAA/B,EAAwC,OAAO,CAAC,KAAhD;AAFA",
+  "sourcesContent": [
+    "{Tracker} = require './tracker'\r\ntracker = Tracker()\r\ndocument.body.addEventListener 'click', tracker.click"
+  ]
+}

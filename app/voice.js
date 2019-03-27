@@ -1,7 +1,8 @@
 (function() {
-  var adsr, wavetable;
+  //wavetable = require './wave-tables/dyna-ep-bright.json'
+  var adsr, freqByIndex;
 
-  wavetable = require('./wave-tables/dyna-ep-bright.json');
+  ({freqByIndex} = require('./notefreq'));
 
   adsr = function(ctx, time, aVal, aTime, dVal, dTime, sTime, rTime) {
     ctx.setValueAtTime(0.0, time);
@@ -12,9 +13,21 @@
   };
 
   module.exports = {
+    Global: function(audio, settings) {
+      var key, node, ref;
+      ref = settings.nodes;
+      for (key in ref) {
+        node = ref[key];
+        this[key] = new window[node.type + 'Node'](audio, node.settings);
+        if (this[key].start) {
+          this[key].start(audio.currentTime);
+        }
+      }
+      this.globalFn = new AsyncFunction('output', settings.globalFn);
+      return this;
+    },
     Voice: function(audio, settings) {
-      var currentInstance, key, node, ref, voice, wave;
-      wave = audio.createPeriodicWave(wavetable.real, wavetable.imag);
+      var currentInstance, key, node, ref, voice;
       currentInstance = null;
       voice = {};
       ref = settings.voice;
@@ -26,15 +39,29 @@
         }
       }
       return {
+        getFile: async function(filePath) {
+          var arrayBuffer, response;
+          response = (await fetch(filePath));
+          arrayBuffer = (await response.arrayBuffer());
+          return (await audio.decodeAudioData(arrayBuffer));
+        },
         play: function(startTime, noteNo, vel, length, global) {
           var instance, ref1, ref2, results;
+          console.log(this.instance);
           instance = {};
+          Object.values(this.instance).forEach(function(node) {
+            if (node.gain && node.gain.value) {
+              node.gain.cancelAndHoldAtTime(startTime);
+              return node.gain.linearRampToValueAtTime(0, startTime + 0.01);
+            }
+          });
           ref1 = settings.instance;
           for (key in ref1) {
             node = ref1[key];
             instance[key] = new window[node.type + 'Node'](audio, node.settings);
           }
           this.instance = instance;
+          console.log('noteNo', noteNo);
           this.instanceFn(startTime, noteNo, vel, length, global);
           ref2 = this.instance;
           results = [];
@@ -44,17 +71,19 @@
               node.start(startTime);
             }
             if (node.stop) {
-              results.push(node.stop(startTime + length));
+              results.push(node.stop(startTime + length + 0.01));
             } else {
               results.push(void 0);
             }
           }
           return results;
         },
-        voiceFn: new Function('output', settings.voiceFn),
+        voiceFn: new AsyncFunction('output', settings.voiceFn),
         instanceFn: new Function('startTime,noteNo,vel,length,global', settings.instanceFn),
         voice: voice,
-        instance: null
+        instance: {},
+        adsr: adsr,
+        freqByIndex: freqByIndex
       };
     }
   };

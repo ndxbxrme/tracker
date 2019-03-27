@@ -39,10 +39,10 @@ module.exports = (grunt) ->
       build:
         files: [
           expand: true
-          cwd: 'src'
+          cwd: 'files'
           dest: 'app'
           src: [
-            '**/*.json'
+            '**/*.*'
           ]
         ]
     clean:

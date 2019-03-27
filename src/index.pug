@@ -3,5 +3,7 @@ html
     link(rel='stylesheet', href='./app.css')
   body
     h1 hi there
+    canvas
     script.
+      window.AsyncFunction = Object.getPrototypeOf(async function(){}).constructor;
       window.renderer = require('./renderer');

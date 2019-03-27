@@ -6,8 +6,8 @@
     "renderer.coffee"
   ],
   "names": [],
-  "mappings": "AAAA;AAAA,MAAA,OAAA,EAAA;;EAAA,CAAA,CAAC,OAAD,CAAA,GAAY,OAAA,CAAQ,WAAR,CAAZ;;EACA,OAAA,GAAU,OAAA,CAAA;;EACV,QAAQ,CAAC,IAAI,CAAC,gBAAd,CAA+B,OAA/B,EAAwC,OAAO,CAAC,KAAhD;AAFA",
+  "mappings": "AAAA;AAAA,MAAA,OAAA,EAAA;;EAAA,CAAA,CAAC,OAAD,CAAA,GAAY,OAAA,CAAQ,WAAR,CAAZ;;EACA,OAAA,GAAU,OAAA,CAAA;AADV",
   "sourcesContent": [
-    "{Tracker} = require './tracker'\r\ntracker = Tracker()\r\ndocument.body.addEventListener 'click', tracker.click"
+    "{Tracker} = require './tracker'\r\ntracker = Tracker()"
   ]
 }

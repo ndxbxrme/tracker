@@ -5,6 +5,10 @@
   </head>
   <body>
     <h1>hi there</h1>
-    <script>window.renderer = require('./renderer');</script>
+    <canvas></canvas>
+    <script>
+      window.AsyncFunction = Object.getPrototypeOf(async function(){}).constructor;
+      window.renderer = require('./renderer');
+    </script>
   </body>
 </html>

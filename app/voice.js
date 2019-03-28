@@ -1,8 +1,10 @@
 (function() {
   //wavetable = require './wave-tables/dyna-ep-bright.json'
-  var adsr, freqByIndex;
+  var adsr, freqByIndex, fs;
 
   ({freqByIndex} = require('./notefreq'));
+
+  fs = require('fs-extra');
 
   adsr = function(ctx, time, aVal, aTime, dVal, dTime, sTime, rTime) {
     ctx.setValueAtTime(0.0, time);
@@ -40,10 +42,10 @@
       }
       return {
         getFile: async function(filePath) {
-          var arrayBuffer, response;
-          response = (await fetch(filePath));
-          arrayBuffer = (await response.arrayBuffer());
-          return (await audio.decodeAudioData(arrayBuffer));
+          var response;
+          console.log('get file', filePath);
+          response = (await fs.readFile(filePath));
+          return (await audio.decodeAudioData(response.buffer));
         },
         play: function(startTime, noteNo, vel, length, global) {
           var instance, ref1, ref2, results;

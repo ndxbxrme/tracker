@@ -1,5 +1,6 @@
 #wavetable = require './wave-tables/dyna-ep-bright.json'
 {freqByIndex} = require './notefreq'
+fs = require 'fs-extra'
 adsr = (ctx, time, aVal, aTime, dVal, dTime, sTime, rTime) ->
   ctx.setValueAtTime 0.0, time
   ctx.linearRampToValueAtTime aVal, time + aTime
@@ -22,9 +23,9 @@ module.exports =
       voice[key].start audio.currentTime if voice[key].start
         
     getFile: (filePath) ->
-      response = await fetch filePath
-      arrayBuffer = await response.arrayBuffer()
-      await audio.decodeAudioData arrayBuffer
+      console.log 'get file', filePath
+      response = await fs.readFile filePath
+      await audio.decodeAudioData response.buffer
     
     play: (startTime, noteNo, vel, length, global) -> 
       console.log @.instance

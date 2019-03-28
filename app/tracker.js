@@ -36,7 +36,10 @@
           },
           {
             name: 'track2',
-            steps: [null,
+            steps: [[2,
+          43,
+          0.5,
+          1],
           [1,
           43,
           0.5,
@@ -87,7 +90,7 @@
           gain: {
             type: 'Gain',
             settings: {
-              gain: 0.7
+              gain: 0.02
             }
           }
         },
@@ -112,7 +115,7 @@
           }
         },
         voiceFn: "this.voice.gain.connect(output);",
-        instanceFn: "console.log(this.freqByIndex(noteNo), startTime);\nthis.instance.osc1.frequency.value = this.freqByIndex(noteNo);\nthis.instance.osc1.connect(this.instance.gain1);\nthis.instance.osc2.frequency.value = this.freqByIndex(noteNo + 7)\nthis.instance.osc2.connect(this.instance.gain1);\nthis.instance.gain1.connect(this.voice.gain);\nthis.voice.lfo.connect(this.instance.osc1.frequency);\nthis.adsr(this.instance.gain1.gain, startTime, 0.9, 0, 0.1, 0.01, length - 0.03, 0.01);"
+        instanceFn: "console.log(this.freqByIndex(noteNo), startTime);\nthis.instance.osc1.frequency.value = this.freqByIndex(noteNo);\nthis.instance.osc1.connect(this.instance.gain1);\nthis.instance.osc2.frequency.value = this.freqByIndex(noteNo + 7)\nthis.instance.osc2.connect(this.instance.gain1);\nthis.instance.gain1.connect(this.voice.gain);\nthis.voice.lfo.connect(this.instance.osc1.frequency);\nthis.adsr(this.instance.gain1.gain, startTime, 0.9, 0.2, 0.1, 0.01, length - 0.03, 0.01);"
       }),
       Voice(audio,
       {
@@ -129,7 +132,25 @@
             type: 'AudioBufferSource'
           }
         },
-        voiceFn: "this.sample = await this.getFile('./15593__lewis__snaremathard.wav');\nthis.voice.gain.connect(output);",
+        voiceFn: "this.sample = await this.getFile('./app/15593__lewis__snaremathard.wav');\nthis.voice.gain.connect(output);",
+        instanceFn: "this.instance.buff.buffer = this.sample;\nthis.instance.buff.connect(this.voice.gain);"
+      }),
+      Voice(audio,
+      {
+        voice: {
+          gain: {
+            type: 'Gain',
+            settings: {
+              gain: 0.7
+            }
+          }
+        },
+        instance: {
+          buff: {
+            type: 'AudioBufferSource'
+          }
+        },
+        voiceFn: "this.sample = await this.getFile('./app/BEATUe5-10.wav');\nthis.voice.gain.connect(output);",
         instanceFn: "this.instance.buff.buffer = this.sample;\nthis.instance.buff.connect(this.voice.gain);"
       })
     ]

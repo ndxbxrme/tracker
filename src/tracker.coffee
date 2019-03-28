@@ -15,7 +15,7 @@ song =
       ,
         name: 'track2'
         steps: [
-          null
+          [2,43, 0.5,1]
           [1,43, 0.5,1]
           null
           [1,43, 0.5,1]
@@ -51,7 +51,7 @@ song =
         gain:
           type: 'Gain'
           settings:
-            gain: 0.7
+            gain: 0.02
       instance:
         osc1:
           type: 'Oscillator'
@@ -76,7 +76,7 @@ song =
         this.instance.osc2.connect(this.instance.gain1);
         this.instance.gain1.connect(this.voice.gain);
         this.voice.lfo.connect(this.instance.osc1.frequency);
-        this.adsr(this.instance.gain1.gain, startTime, 0.9, 0, 0.1, 0.01, length - 0.03, 0.01);
+        this.adsr(this.instance.gain1.gain, startTime, 0.9, 0.2, 0.1, 0.01, length - 0.03, 0.01);
       """
     Voice audio,
       voice:
@@ -88,7 +88,24 @@ song =
         buff:
           type: 'AudioBufferSource'
       voiceFn: """
-        this.sample = await this.getFile('./15593__lewis__snaremathard.wav');
+        this.sample = await this.getFile('./app/15593__lewis__snaremathard.wav');
+        this.voice.gain.connect(output);
+      """
+      instanceFn: """
+        this.instance.buff.buffer = this.sample;
+        this.instance.buff.connect(this.voice.gain);
+      """
+    Voice audio,
+      voice:
+        gain:
+          type: 'Gain'
+          settings:
+            gain: 0.7
+      instance:
+        buff:
+          type: 'AudioBufferSource'
+      voiceFn: """
+        this.sample = await this.getFile('./app/BEATUe5-10.wav');
         this.voice.gain.connect(output);
       """
       instanceFn: """
